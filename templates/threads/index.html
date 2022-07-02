@@ -6,9 +6,13 @@
 <div class="list-group list-group-flush">
     {% for thread in recent_threads %}
     <li class="list-group-item">
-        <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-        <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
-        <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
+        <div class="container">
+            <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
+            <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
+            <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
+            <p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
+            <span class="text-muted">{{ thread.pub_date }}</span>
+        </div>
     </li>
     {% endfor %}
 </div>
@@ -18,9 +22,13 @@
 <div class="list-group list-group-flush">
     {% for thread in popular_threads %}
     <li class="list-group-item">
-        <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-        <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
-        <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
+        <div class="container">
+            <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
+            <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
+            <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
+            <p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
+            <span class="text-muted">{{ thread.pub_date }}</span>
+        </div>
     </li>
     {% endfor %}
 </div>

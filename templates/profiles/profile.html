@@ -1,10 +1,10 @@
 {% extends 'profiles/base.html' %}
 
 {% block content %}
-<h2>{{ user.username }}'s profile</h2>
-<p class="text-muted">Registered since {{ user.date_joined }}</p>
-<p class="text-muted">{{ user.upvote_set.count }} upboat(s) given</p>
-<p class="text-muted">{{ user.comment_set.count }} comment(s) made</p>
-<p class="text-muted">{{ user.thread_set.count }} thread(s) written</p>
+<h2>{{ target_profile.username }}'s profile</h2>
+<p class="text-muted">Registered since {{ target_profile.date_joined }}</p>
+<p class="text-muted">{{ target_profile.upvote_set.count }} upboat(s) given</p>
+<p class="text-muted">{{ target_profile.comment_set.count }} comment(s) made</p>
+<p class="text-muted">{{ target_profile.thread_set.count }} thread(s) written</p>
 <a href="{% url 'logout' %}">Log out</a>
 {% endblock %}

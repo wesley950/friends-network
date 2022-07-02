@@ -1,8 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView as BaseLoginView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -27,6 +27,6 @@ class RegisterView(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'profiles/register.html'
 
-@login_required
-def profile(request):
-    return render(request, 'profiles/profile.html')
+def profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'profiles/profile.html', { 'target_profile': user })

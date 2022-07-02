@@ -22,7 +22,7 @@
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
                     <a class="nav-link" href="/t/new">New Thread</a>
-                    <a href="{% url 'profiles:profile' %}" class="nav-link">My Profile</a>
+                    <a href="{% url 'profiles:profile' user.id %}" class="nav-link">My Profile</a>
                     <a href="{% url 'logout' %}" class="nav-link">Log out</a>
                     {% else %}
                     <a href="{% url 'login' %}" class="nav-link">Log in</a>
