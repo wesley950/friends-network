@@ -6,5 +6,29 @@
 <p class="text-muted">{{ target_profile.upvote_set.count }} upboat(s) given</p>
 <p class="text-muted">{{ target_profile.comment_set.count }} comment(s) made</p>
 <p class="text-muted">{{ target_profile.thread_set.count }} thread(s) written</p>
-<a href="{% url 'logout' %}">Log out</a>
+
+<h3>Friends</h3>
+{% for friend in friends %}
+    <a href="{% url 'profiles:profile' friend.id %}">{{ friend.username }}</a>
+{% endfor %}
+
+{% if target_profile != user %}
+    {% if is_friend %}
+        <p>You and {{ target_profile.username }} are friends.</p>
+    {% else %}
+        <a href="{% url 'profiles:send_friend_request' target_profile.id %}">Send friend request</a>
+    {% endif %}
+{% else %}
+    <h3>Friend Requests</h3>
+    {% if friend_requests|length > 0 %}
+        {% for friend_request in friend_requests %}
+            <p><a href="{% url 'profiles:profile' friend_request.sender.id %}">{{ friend_request.sender.username }}</a> wants to be your friend <a href="{% url 'profiles:accept_friend_request' friend_request.id %}">Accept</a></p>
+        {% endfor %}
+    {% else %}
+        <p>None at the moment.</p>
+    {% endif %}
+
+    <a href="{% url 'logout' %}">Log out</a>
+{% endif %}
+
 {% endblock %}

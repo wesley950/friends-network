@@ -4,7 +4,7 @@
 <h1>{{ thread.title }}</h1>
 <p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
 <p class="text-muted">{{ thread.pub_date }}</p>
-<p class="text-muted">{{ thread.upvote_set.count }} points</p>
+<p class="text-muted">{{ thread.upvote_set.count }} upboat(s)</p>
 <p>{{ thread.text }}</p>
 
 {% if upvoted %}
@@ -32,7 +32,7 @@
     {% for comment in comments %}
     <li class="list-group-item">
         <p>{{ comment.text }}</p>
-        <p class="text-muted">by {{ comment.creator.username }}</p>
+        <p class="text-muted">by <a href="{% url 'profiles:profile' comment.creator.id %}">{{ comment.creator.username }}</a></p>
         <p class="text-muted">{{ comment.pub_date }}</p>
     </li>
     {% endfor %}
