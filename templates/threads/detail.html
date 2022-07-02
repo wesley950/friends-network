@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>{{ thread.title }}</h1>
+<p class="text-muted">by {{ thread.creator.username }}</p>
 <p class="text-muted">{{ thread.pub_date }}</p>
 <p class="text-muted">{{ thread.points }} points</p>
 <p>{{ thread.text }}</p>
@@ -27,6 +28,7 @@
     {% for comment in comments %}
     <li class="list-group-item">
         <p>{{ comment.text }}</p>
+        <p class="text-muted">by {{ comment.creator.username }}</p>
         <p class="text-muted">{{ comment.pub_date }}</p>
     </li>
     {% endfor %}
