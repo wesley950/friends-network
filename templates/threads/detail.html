@@ -4,13 +4,17 @@
 <h1>{{ thread.title }}</h1>
 <p class="text-muted">by {{ thread.creator.username }}</p>
 <p class="text-muted">{{ thread.pub_date }}</p>
-<p class="text-muted">{{ thread.points }} points</p>
+<p class="text-muted">{{ thread.upvote_set.count }} points</p>
 <p>{{ thread.text }}</p>
 
+{% if upvoted %}
+<p>You gave an upboat!</p>
+{% else %}
 <form action="{% url 'threads:upvote' thread.id %}" method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-primary">Give an upboat</button>
 </form>
+{% endif %}
 
 <form action="{% url 'threads:comment' thread.id %}" method="post">
     {% csrf_token %}

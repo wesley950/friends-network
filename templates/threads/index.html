@@ -7,7 +7,7 @@
     {% for thread in recent_threads %}
     <li class="list-group-item">
         <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-        <span class="badge bg-primary rounded-pill">{{ thread.points }} points</span>
+        <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
         <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
     </li>
     {% endfor %}
@@ -19,7 +19,7 @@
     {% for thread in popular_threads %}
     <li class="list-group-item">
         <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-        <span class="badge bg-primary rounded-pill">{{ thread.points }} points</span>
+        <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} points</span>
         <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
     </li>
     {% endfor %}
