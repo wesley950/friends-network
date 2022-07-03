@@ -14,7 +14,7 @@ def index(request):
 def detail(request, thread_id):
     thread = get_object_or_404(Thread, id=thread_id)
     comments = Comment.objects.filter(thread=thread.id).order_by('-pub_date')
-    upvoted = Upvote.objects.filter(thread=thread, user=request.user).count() != 0
+    upvoted = request.user.is_authenticated and Upvote.objects.filter(thread=thread, user=request.user).count() != 0
     return render(request, 'threads/detail.html', { 'thread': thread, 'comments': comments, 'upvoted': upvoted })
 
 @login_required

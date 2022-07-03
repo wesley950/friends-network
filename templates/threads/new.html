@@ -1,18 +1,21 @@
 {% extends 'threads/base.html' %}
 
 {% block content %}
-<h1>New Thread</h1>
-<form action="{% url 'threads:new' %}" method="post">
-    {% csrf_token %}
+<div class="container my-3">
 
-    <div class="mb-3">
-        <label for="thread-title" class="form-label">Title</label>
-        <input type="text" class="form-control" id="thread-title" name="thread-title" placeholder="An interesting title..." required>
-    </div>
-    <div class="mb-3">
-        <label for="thread-text" class="form-label">Text <small class="text-muted">(optional)</small></label>
-        <textarea class="form-control" id="thread-text" name="thread-text" rows="3"></textarea>
-    </div>
-    <input type="submit" value="Submit" class="btn btn-primary">
-</form>
+    <h2>New Thread</h2>
+    <form action="{% url 'threads:new' %}" method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="thread-title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="thread-title" name="thread-title" placeholder="An interesting title..." required>
+        </div>
+        <div class="mb-3">
+            <label for="thread-text" class="form-label">Text <small class="text-muted">(optional)</small></label>
+            <textarea class="form-control" id="thread-text" name="thread-text" rows="3"></textarea>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+    </form>
+</div>
 {% endblock %}

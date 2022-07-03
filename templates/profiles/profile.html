@@ -1,34 +1,41 @@
 {% extends 'profiles/base.html' %}
 
 {% block content %}
-<h2>{{ target_profile.username }}'s profile</h2>
-<p class="text-muted">Registered since {{ target_profile.date_joined }}</p>
-<p class="text-muted">{{ target_profile.upvote_set.count }} upboat(s) given</p>
-<p class="text-muted">{{ target_profile.comment_set.count }} comment(s) made</p>
-<p class="text-muted">{{ target_profile.thread_set.count }} thread(s) written</p>
+<div class="container my-3">
+    <div class="text-center">
+        <h2>{{ target_profile.username }}'s profile</h2>
+        <span class="d-block">Registered since {{ target_profile.date_joined }}</span>
+        <span class="d-block">{{ target_profile.upvote_set.count }} upboat{{ target_profile.upvote_set.count|pluralize }} given</span>
+        <span class="d-block">{{ target_profile.comment_set.count }} comment{{ target_profile.comment_set.count|pluralize }} made</span>
+        <span class="d-block">{{ target_profile.thread_set.count }} thread{{ target_profile.thread_set.count|pluralize }} written</span>
+    </div>
 
-<h3>Friends</h3>
-{% for friend in friends %}
-    <a href="{% url 'profiles:profile' friend.id %}">{{ friend.username }}</a>
-{% endfor %}
-
-{% if target_profile != user %}
-    {% if is_friend %}
-        <p>You and {{ target_profile.username }} are friends.</p>
-    {% else %}
-        <a href="{% url 'profiles:send_friend_request' target_profile.id %}">Send friend request</a>
-    {% endif %}
-{% else %}
-    <h3>Friend Requests</h3>
-    {% if friend_requests|length > 0 %}
-        {% for friend_request in friend_requests %}
-            <p><a href="{% url 'profiles:profile' friend_request.sender.id %}">{{ friend_request.sender.username }}</a> wants to be your friend <a href="{% url 'profiles:accept_friend_request' friend_request.id %}">Accept</a></p>
+    <div class="mb-5">
+        <h3>Friend{{ friends.count|pluralize }}</h3>
+        {% for friend in friends %}
+            <a class="d-block text-decoration-none" href="{% url 'profiles:profile' friend.id %}">{{ friend.username }}</a>
         {% endfor %}
+    </div>
+
+    {% if target_profile != user %}
+        {% if is_friend %}
+            <p>You and {{ target_profile.username }} are friends.</p>
+        {% else %}
+            {% if user.is_authenticated %}
+                <a class="d-block text-decoration-none" href="{% url 'profiles:send_friend_request' target_profile.id %}">Send friend request</a>
+            {% else %}
+                <a class="d-block text-decoration-none" href="{% url 'profiles:login' %}">Login or sign up to send a friend request</a>
+            {% endif %}
+        {% endif %}
     {% else %}
-        <p>None at the moment.</p>
+        <h3>Friend Requests</h3>
+        {% if friend_requests|length > 0 %}
+            {% for friend_request in friend_requests %}
+                <span class="d-block"><a class="text-decoration-none" href="{% url 'profiles:profile' friend_request.sender.id %}">{{ friend_request.sender.username }}</a> wants to be your friend <a href="{% url 'profiles:accept_friend_request' friend_request.id %}">Accept</a></span>
+            {% endfor %}
+        {% else %}
+            <p>None at the moment.</p>
+        {% endif %}
     {% endif %}
-
-    <a href="{% url 'logout' %}">Log out</a>
-{% endif %}
-
+</div>
 {% endblock %}

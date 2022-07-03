@@ -1,36 +1,47 @@
 {% extends 'threads/base.html' %}
 
 {% block content %}
-<h1>Recent Threads</h1>
 
-<div class="list-group list-group-flush">
-    {% for thread in recent_threads %}
-    <li class="list-group-item">
-        <div class="container">
-            <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-            <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} upboat(s)</span>
-            <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
-            <p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
-            <span class="text-muted">{{ thread.pub_date }}</span>
-        </div>
-    </li>
-    {% endfor %}
+<div class="container my-3">
+    <h2>Recent Threads</h2>
+    <div class="list-group list-group-flush">
+        {% for thread in recent_threads %}
+        <li class="list-group-item">
+            <a class="text-decoration-none text-reset" href="{% url 'threads:detail' thread.id %}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-1">{{ thread.title }}</h5>
+                    <div class="d-flex">
+                        <span class="badge bg-primary rounded-pill mx-3">{{ thread.upvote_set.count }} upboat{{ thread.upvote_set.count|pluralize }}</span>
+                        <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comment{{ thread.comment_set.count|pluralize }}</span>
+                    </div>
+                </div>
+                <p class="mb-1 text-truncate">{{ thread.text }}</p>
+                <small>by <a class="text-decoration-none" href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a> in {{ thread.pub_date }}</small>
+            </a>
+        </li>
+        {% endfor %}
+    </div>
 </div>
 
-<h1>Popular Threads</h1>
-
-<div class="list-group list-group-flush">
-    {% for thread in popular_threads %}
-    <li class="list-group-item">
-        <div class="container">
-            <a href="{% url 'threads:detail' thread.id %}">{{ thread.title }}</a>
-            <span class="badge bg-primary rounded-pill">{{ thread.upvote_set.count }} upboat(s)</span>
-            <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comments</span>
-            <p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
-            <span class="text-muted">{{ thread.pub_date }}</span>
-        </div>
-    </li>
-    {% endfor %}
+<div class="container my-3">
+    <h2>Popular Threads</h2>
+    <div class="list-group list-group-flush">
+        {% for thread in popular_threads %}
+        <li class="list-group-item">
+            <a class="text-decoration-none text-reset" href="{% url 'threads:detail' thread.id %}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-1">{{ thread.title }}</h5>
+                    <div class="d-flex">
+                        <span class="badge bg-primary rounded-pill mx-3">{{ thread.upvote_set.count }} upboat{{ thread.upvote_set.count|pluralize }}</span>
+                        <span class="badge bg-primary rounded-pill">{{ thread.comment_set.count }} comment{{ thread.comment_set.count|pluralize }}</span>
+                    </div>
+                </div>
+                <p class="mb-1 text-truncate">{{ thread.text }}</p>
+                <small>by <a class="text-decoration-none" href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a> in {{ thread.pub_date }}</small>
+            </a>
+        </li>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

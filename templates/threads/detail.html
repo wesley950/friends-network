@@ -1,45 +1,56 @@
 {% extends 'threads/base.html' %}
 
 {% block content %}
-<h1>{{ thread.title }}</h1>
-<p class="text-muted">by <a href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a></p>
-<p class="text-muted">{{ thread.pub_date }}</p>
-<p class="text-muted">{{ thread.upvote_set.count }} upboat(s)</p>
-<p>{{ thread.text }}</p>
+    <div class="container my-3">
+        <div class="mb-5">
+            <h2>{{ thread.title }}</h2>
+            <p>by <a class="text-decoration-none" href="{% url 'profiles:profile' thread.creator.id }}">{{ thread.creator.username }}</a> in {{ thread.pub_date }}</p>
+            <p>{{ thread.text }}</p>
+            <div class="d-flex align-items-center">
+                {% if upvoted %}
+                    {% with upvotes=thread.upvote_set.count|add:"-1" %}
+                        {% if upvotes == 0 %}
+                            <p>You gave an upboat!</p>
+                        {% else %}
+                            <p>You and {{ upvotes }} other {{ upvotes|pluralize:"person,people" }} have upboated!</p>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'threads:upvote' thread.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-sm me-3">Give an upboat</button>
+                        </form>
+                    {% endif %}
+                    {% with upvotes=thread.upvote_set.count %}
+                        <span>{{ upvotes }} {{ upvotes|pluralize:"person,people" }} have upboated!</span>
+                    {% endwith %}
+                {% endif %}
+            </div>
+        </div>
 
-{% if upvoted %}
-<p>You gave an upboat!</p>
-{% else %}
-<form action="{% url 'threads:upvote' thread.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Give an upboat</button>
-</form>
-{% endif %}
+        <div class="mb-5">
+            <form action="{% url 'threads:comment' thread.id %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <textarea class="form-control" name="comment-text" id="comment-text" rows="3" placeholder="Make a comment..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            </form>
+        </div>
 
-<form action="{% url 'threads:comment' thread.id %}" method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="comment-text" class="form-label">Make a comment</label>
-        <textarea class="form-control" name="comment-text" id="comment-text" rows="3"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-<h1>Comments</h1>
-{% if comments.count > 0 %}
-
-<ul class="list-group">
-    {% for comment in comments %}
-    <li class="list-group-item">
-        <p>{{ comment.text }}</p>
-        <p class="text-muted">by <a href="{% url 'profiles:profile' comment.creator.id %}">{{ comment.creator.username }}</a></p>
-        <p class="text-muted">{{ comment.pub_date }}</p>
-    </li>
-    {% endfor %}
-</ul>
-
-{% else %}
-<p>No comments were made on this thread.</p>
-{% endif %}
-
+    <h3>Comments</h3>
+    {% if comments.count > 0 %}
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <p>{{ comment.text }}</p>
+                    <span>by <a class="text-decoration-none" href="{% url 'profiles:profile' comment.creator.id %}">{{ comment.creator.username }}</a> in {{ comment.pub_date }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments were made on this thread.</p>
+    {% endif %}
+</div>
 {% endblock %}
