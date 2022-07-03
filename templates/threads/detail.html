@@ -29,6 +29,7 @@
             </div>
         </div>
 
+        {% if user.is_authenticated %}
         <div class="mb-5">
             <form action="{% url 'threads:comment' thread.id %}" method="post">
                 {% csrf_token %}
@@ -38,6 +39,7 @@
                 <button type="submit" class="btn btn-primary btn-sm">Submit</button>
             </form>
         </div>
+        {% endif %}
 
     <h3>Comments</h3>
     {% if comments.count > 0 %}
