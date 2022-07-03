@@ -4,7 +4,7 @@
     <div class="container my-3">
         <div class="mb-5">
             <h2>{{ thread.title }}</h2>
-            <p>by <a class="text-decoration-none" href="{% url 'profiles:profile' thread.creator.id }}">{{ thread.creator.username }}</a> in {{ thread.pub_date }}</p>
+            <p>by <a class="text-decoration-none" href="{% url 'profiles:profile' thread.creator.id %}">{{ thread.creator.username }}</a> in {{ thread.pub_date }}</p>
             <p>{{ thread.text }}</p>
             <div class="d-flex align-items-center">
                 {% if upvoted %}
